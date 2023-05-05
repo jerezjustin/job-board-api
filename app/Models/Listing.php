@@ -7,12 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Listing extends Model
 {
     use HasFactory;
+    use HasSlug;
 
     protected $guarded = [];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['title', 'company'])
+            ->saveSlugsTo('slug');
+    }
 
     public function clicks(): HasMany
     {
