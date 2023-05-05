@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('clicks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('listing_id')->constrained()->cascadeOnDelete();
             $table->text('user_agent')->nullable();
             $table->string('ip_address')->nullable();
             $table->timestamps();
