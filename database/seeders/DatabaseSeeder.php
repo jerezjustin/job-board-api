@@ -16,6 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        collect(\App\Enums\Role::cases())->each(function ($role) {
+            \App\Models\Role::create([
+                'name' => $role->value,
+            ]);
+        });
+
         $tags = Tag::factory(10)->create();
 
         User::factory(10)->create()->each(function ($user) use ($tags) {
@@ -26,6 +32,7 @@ class DatabaseSeeder extends Seeder
             });
         });
 
-        Click::factory(10)->create();
+        // Create fake clicks for listings
+        Click::factory(100)->create();
     }
 }

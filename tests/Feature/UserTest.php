@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Listing;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
@@ -32,5 +33,17 @@ class UserTest extends TestCase
         $user = User::withCount('listings')->latest()->first();
 
         $this->assertSame(self::LISTINGS_COUNT, $user->listings_count);
+    }
+
+    /** @test */
+    public function user_has_roles()
+    {
+        $user = User::factory()->createOne();
+
+        $role = Role::create(['name' => 'test role']);
+
+        $user->assignRole($role);
+
+        $this->assertTrue($user->hasRole($role->name));
     }
 }
