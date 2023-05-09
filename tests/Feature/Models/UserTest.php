@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Models;
 
 use App\Models\Listing;
 use App\Models\Role;

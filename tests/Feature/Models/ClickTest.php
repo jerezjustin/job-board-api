@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
-class TagTest extends TestCase
+class ClickTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function tags_table_exists(): void
+    public function clicks_table_exists(): void
     {
-        $this->assertTrue(Schema::hasTable('tags'));
+        $this->assertTrue(Schema::hasTable('clicks'));
     }
 }
