@@ -2,6 +2,7 @@
 
 namespace Endpoints;
 
+use App\Http\Resources\ListingResource;
 use App\Models\Listing;
 use App\Models\User;
 use Exception;
@@ -16,11 +17,17 @@ class ListingsTest extends TestCase
 
     protected string $endpoint;
 
+    protected User $user;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->endpoint = env('APP_URL') . '/api/listings/';
+
+        $this->user = User::factory()->create();
+
+        $this->user->createAsStripeCustomer();
     }
 
     /** @test */
@@ -81,11 +88,7 @@ class ListingsTest extends TestCase
      */
     public function can_create_a_new_listing()
     {
-        $user = User::factory()->create();
-
-        $user->createAsStripeCustomer();
-
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
         $listingInformation = [
             'title' => 'New Listing',
@@ -112,6 +115,35 @@ class ListingsTest extends TestCase
 
         $this->postJson($this->endpoint, $listingInformation)
             ->assertCreated();
+    }
+
+    /** @test */
+    public function can_update_an_existing_listing()
+    {
+        $this->actingAs($this->user);
+
+        $listing = $this->user->listings()->create($data = [
+            'title' => fake()->jobTitle,
+            'company' => fake()->company,
+            'location' => fake()->country,
+            'content' => fake()->randomHtml,
+            'apply_link' => fake()->url,
+            'is_active' => true,
+            'is_highlighted' => fake()->boolean,
+        ]);
+
+        $response = $this->patchJson(route('listings.update', $listing->id), [
+            'location' => $location = fake()->country,
+            'content' => $content = fake()->randomHtml
+        ]);
+
+        $response->assertOk();
+
+        $this->assertEquals($response->json(), [
+            ...(new ListingResource($listing->refresh()))->resolve(),
+            'created_at' => $listing->created_at->jsonSerialize(),
+            'updated_at' => $listing->updated_at->jsonSerialize()
+        ]);
     }
 
     /** @test */

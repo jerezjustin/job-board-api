@@ -11,8 +11,8 @@ readonly class Listing implements DTO
         public string  $content,
         public string  $applyLink,
         public ?string $logo = null,
-        public ?bool    $highlighted = false,
-        public ?bool    $active = true,
+        public ?bool   $highlighted = false,
+        public ?bool   $active = true,
     ) {
     }
 
@@ -37,10 +37,10 @@ readonly class Listing implements DTO
             'company' => $this->company,
             'location' => $this->location,
             'content' => $this->content,
-            'applyLink' => $this->applyLink,
+            'apply_link' => $this->applyLink,
             'logo' => $this->logo,
-            'highlighted' => $this->highlighted,
-            'active' => $this->active
+            'is_highlighted' => $this->highlighted,
+            'is_active' => $this->active
         ];
     }
 }

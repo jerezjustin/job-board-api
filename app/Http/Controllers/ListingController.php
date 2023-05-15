@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Actions\CreateListing;
 use App\Actions\CreateTags;
 use App\Http\Requests\StoreListingRequest;
+use App\Http\Requests\UpdateListingRequest;
 use App\Http\Resources\ListingCollection;
 use App\Http\Resources\ListingResource;
 use App\Models\Listing;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,7 @@ class ListingController extends Controller
         protected CreateListing $createListing,
         protected CreateTags    $createTags,
     ) {
-        $this->middleware('auth')->only('store');
+        $this->middleware('auth')->only('store', 'update');
     }
 
     public function index(): ListingCollection
@@ -41,7 +41,10 @@ class ListingController extends Controller
             Auth::user()->charge($amount, $request->payment_method_id);
 
             $listing = $this->createListing->handle(
-                listingDataObject: \App\DataObjects\Listing::fromArray($request->validated())
+                listingDataObject: \App\DataObjects\Listing::fromArray([
+                    ...$request->except('logo'),
+                    'logo' => basename($request->file('logo')?->store('public'))
+                ])
             );
 
             $tags = $this->createTags->handle($request->tags);
@@ -66,9 +69,28 @@ class ListingController extends Controller
         return new ListingResource($listing);
     }
 
-    public function update(Request $request, Listing $listing)
+    public function update(UpdateListingRequest $request, Listing $listing): JsonResponse
     {
-        //
+        try {
+            $listing->update([
+                ...$request->validated(),
+                'logo' => basename($request->file('logo')?->store('public'))
+                    ?? $listing->logo
+            ]);
+
+            if ($request->tags) {
+                $listing->tags()->attach(
+                    $this->createTags->handle($request->tags)
+                );
+            }
+
+            return response()->json(new ListingResource($listing), Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     public function destroy(Listing $listing): \Illuminate\Http\Response

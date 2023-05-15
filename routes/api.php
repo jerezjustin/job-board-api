@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('listings', \App\Http\Controllers\ListingController::class)
-    ->only('index', 'show', 'store', 'destroy');
+Route::apiResource('listings', \App\Http\Controllers\ListingController::class);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
