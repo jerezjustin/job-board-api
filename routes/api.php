@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Listing\ApplyListingController;
+use App\Http\Controllers\Listing\ListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('listings', \App\Http\Controllers\ListingController::class);
+Route::apiResource('listings', ListingController::class);
+
+Route::post('/listings/{listing}/apply', [ApplyListingController::class, 'store'])->name('listing.apply');
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();

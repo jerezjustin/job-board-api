@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Listing;
 
 use App\Actions\CreateListing;
 use App\Actions\CreateTags;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Http\Resources\ListingCollection;
