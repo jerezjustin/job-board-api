@@ -10,7 +10,7 @@ jobs:
   laravel-tests:
 
     runs-on: ubuntu-latest
-
+    environment: development
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
@@ -32,4 +32,5 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+        STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
       run: vendor/bin/phpunit

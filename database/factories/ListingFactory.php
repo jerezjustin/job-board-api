@@ -26,9 +26,9 @@ class ListingFactory extends Factory
 
         return [
             'title' => $this->faker->jobTitle,
-            'company' => $this->faker->company,
+            'company' => $company = $this->faker->company,
             'location' => $this->faker->country,
-            'logo' => '',
+            'logo' => $company . '_logo_' . 'png',
             'is_highlighted' => $this->faker->boolean(chanceOfGettingTrue: 25),
             'is_active' => true,
             'content' => $content,
