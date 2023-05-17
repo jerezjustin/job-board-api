@@ -1,0 +1,532 @@
+{
+	"info": {
+		"_postman_id": "c24e19e3-11a4-45d5-9fa0-7932a67a4fad",
+		"name": "Job Board - API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27270908"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-token",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listings",
+			"item": [
+				{
+					"name": "Get All Listings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/listings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Listing",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/listings/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Listing",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							},
+							{
+								"key": "_method",
+								"value": "DELETE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/listings/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase Listing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "New Listing",
+									"type": "text"
+								},
+								{
+									"key": "company",
+									"value": "Company Test",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Remote, United States",
+									"type": "text"
+								},
+								{
+									"key": "apply_link",
+									"value": "https://apply.job/",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "<p>This is a fake html text</p>",
+									"type": "text"
+								},
+								{
+									"key": "payment_method_id",
+									"value": "pm_1N8lFmERDcbq9w3NgObvhUDv",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "PHP, Laravel, VueJs, Docker, AWS",
+									"type": "text"
+								},
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/C:/Users/justi/Downloads/1634941355909.jpg"
+								},
+								{
+									"key": "is_highlited",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/listings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Listing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							},
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PATCH",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Updated Title",
+									"type": "text"
+								},
+								{
+									"key": "company",
+									"value": "Updated Company",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "remote, worldwide",
+									"type": "text"
+								},
+								{
+									"key": "apply_link",
+									"value": "https://updatedapplylink.com/careers/12323",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "<p>This is an updated fake test</p>",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "Updated, Tags",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/C:/Users/justi/Downloads/1634941355909.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/listings/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply Listing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{csrf-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/listings/1/apply",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"listings",
+								"1",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entry Endpoint",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get CSRF token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: 'localhost:8000/sanctum/csrf-cookie',\r",
+							"    method: 'GET'\r",
+							"}, function(error, response, {cookies}) {\r",
+							"    pm.collectionVariables.set('csrf-token', cookies.get('XSRF-TOKEN'))\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/sanctum/csrf-cookie",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"sanctum",
+						"csrf-cookie"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"    url: 'localhost:8000/sanctum/csrf-cookie',",
+					"    method: 'GET'",
+					"}, function(error, response, {cookies}) {",
+					"    pm.collectionVariables.set('csrf-token', cookies.get('XSRF-TOKEN'))",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "csrf-token",
+			"value": ""
+		}
+	]
+}
