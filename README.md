@@ -1,6 +1,6 @@
 # Job Board | Back-End API
 
-This project is a basic job board website made powered by Laravel. 
+This project is a basic job board website made powered by [Laravel](https://laravel.com/). 
 
 The job board features:
 
@@ -19,8 +19,10 @@ To test this project follow the next steps:
 - Run the migrations `php artisan migrate` or `php artisan migrate --seed` if you want to have some fake data.
 - Finally, you can run the project using `php artisan serve`.
 
-I have used [Postman](https://www.postman.com/) to develop this project, and you can find a `postman.json` file with all the endpoints of the 
-application, import it on Postman and you can start making HTTP requests to this API.
+I have used [Postman](https://www.postman.com/) to develop this project, and you can find a `api.postman_collection` 
+file with all 
+the endpoints of the 
+application, import it into Postman on your local machine, and start making HTTP requests to this API.
 
 ### Generate Payment Method
 
@@ -58,3 +60,8 @@ automated tests, to execute them you can run `php artisan test`.
 
 This project was inspired by [Larajobs](https://larajobs.com) and [Andrew Schmelyun](https://github.
 com/aschmelyun) Laravel Job Board project.
+
+# Contributing
+
+If you find a bug, please feel free to open an issue on this repository or create a pull requests with the changes, 
+I'll be looking into it as soon as I can.
