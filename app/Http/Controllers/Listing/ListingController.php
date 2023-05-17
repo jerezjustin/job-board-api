@@ -11,6 +11,7 @@ use App\Http\Resources\ListingCollection;
 use App\Http\Resources\ListingResource;
 use App\Models\Listing;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class ListingController extends Controller
         protected CreateListing $createListing,
         protected CreateTags    $createTags,
     ) {
-        $this->middleware('auth')->only('store', 'update');
+        $this->middleware('auth')->only('store', 'update', 'destroy');
     }
 
     public function index(): ListingCollection
@@ -73,6 +74,8 @@ class ListingController extends Controller
     public function update(UpdateListingRequest $request, Listing $listing): JsonResponse
     {
         try {
+            DB::beginTransaction();
+
             $listing->update([
                 ...$request->validated(),
                 'logo' => basename($request->file('logo')?->store('public'))
@@ -85,8 +88,12 @@ class ListingController extends Controller
                 );
             }
 
+            DB::commit();
+
             return response()->json(new ListingResource($listing), Response::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
+
             return response()->json(
                 ['message' => $e->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -94,8 +101,13 @@ class ListingController extends Controller
         }
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Listing $listing): \Illuminate\Http\Response
     {
+        $this->authorize('delete', $listing);
+
         $listing->delete();
 
         return response()->noContent();

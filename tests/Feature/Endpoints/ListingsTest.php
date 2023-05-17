@@ -7,6 +7,7 @@ use App\Models\Listing;
 use App\Models\User;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Cashier\Exceptions\CustomerAlreadyCreated;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 use Tests\TestCase;
@@ -19,6 +20,9 @@ class ListingsTest extends TestCase
 
     protected User $user;
 
+    /**
+     * @throws CustomerAlreadyCreated
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -30,7 +34,9 @@ class ListingsTest extends TestCase
         $this->user->createAsStripeCustomer();
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_retrieve_all_listings()
     {
         Listing::factory(3)->create();
@@ -56,7 +62,9 @@ class ListingsTest extends TestCase
             ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_retrieve_a_listing()
     {
         $listing = Listing::factory()->create();
@@ -82,7 +90,8 @@ class ListingsTest extends TestCase
             ]);
     }
 
-    /** @test
+    /**
+     * @test
      * @throws ApiErrorException
      * @throws Exception
      */
@@ -117,12 +126,14 @@ class ListingsTest extends TestCase
             ->assertCreated();
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_update_an_existing_listing()
     {
         $this->actingAs($this->user);
 
-        $listing = $this->user->listings()->create($data = [
+        $listing = $this->user->listings()->create([
             'title' => fake()->jobTitle,
             'company' => fake()->company,
             'location' => fake()->country,
@@ -133,8 +144,8 @@ class ListingsTest extends TestCase
         ]);
 
         $response = $this->patchJson(route('listings.update', $listing->id), [
-            'location' => $location = fake()->country,
-            'content' => $content = fake()->randomHtml
+            'location' => fake()->country,
+            'content' => fake()->randomHtml
         ]);
 
         $response->assertOk();
@@ -146,10 +157,14 @@ class ListingsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function can_delete_a_listing()
     {
-        $listing = Listing::factory()->create();
+        $this->actingAs($this->user);
+
+        $listing = Listing::factory()->create(['user_id' => $this->user]);
 
         $this->deleteJson($this->endpoint . $listing->id)
             ->assertNoContent();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Listing;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreListingRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreListingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', Listing::class);
     }
 
     /**
