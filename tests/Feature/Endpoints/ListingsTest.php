@@ -56,6 +56,7 @@ class ListingsTest extends TestCase
                         'is_active',
                         'content',
                         'apply_link',
+                        'salary',
                         'user_id'
                     ]
                 ]
@@ -83,6 +84,7 @@ class ListingsTest extends TestCase
                     'is_active' => (int)$listing->is_active,
                     'content' => $listing->content,
                     'apply_link' => $listing->apply_link,
+                    'salary' => $listing->salary,
                     'user_id' => $listing->user_id,
                     'created_at' => $listing->created_at,
                     'updated_at' => $listing->updated_at,

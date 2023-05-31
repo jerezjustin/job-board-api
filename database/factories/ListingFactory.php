@@ -26,6 +26,7 @@ class ListingFactory extends Factory
 
         return [
             'title' => $this->faker->jobTitle,
+            'salary' => $this->faker->numberBetween(2500, 5000),
             'company' => $company = $this->faker->company,
             'location' => $this->faker->country,
             'logo' => $company . '_logo_' . 'png',

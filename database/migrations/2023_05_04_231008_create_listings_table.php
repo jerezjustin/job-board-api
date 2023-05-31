@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('company');
+            $table->integer('salary')->nullable();
             $table->string('location');
             $table->string('logo')->nullable();
             $table->boolean('is_highlighted')->default(false);

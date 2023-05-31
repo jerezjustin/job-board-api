@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\HasFilterScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ class Listing extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasFilterScope;
 
     protected $guarded = [];
 

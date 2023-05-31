@@ -28,7 +28,11 @@ class ListingController extends Controller
 
     public function index(): ListingCollection
     {
-        $listings = Listing::latest()->paginate($resultsPerPage = 10);
+        $listings = Listing::with('tags')
+            ->filter()
+            ->latest()
+            ->paginate($resultsPerPage = 10)
+            ->withQueryString();
 
         return new ListingCollection($listings);
     }

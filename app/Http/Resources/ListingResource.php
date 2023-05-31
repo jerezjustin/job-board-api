@@ -25,9 +25,11 @@ class ListingResource extends JsonResource
             'is_active' => $this->is_active,
             'content' => $this->content,
             'apply_link' => $this->apply_link,
+            'salary' => $this->salary,
             'user_id' => $this->user_id,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'tags' => TagResource::collection($this->whenLoaded('tags'))
         ];
     }
 }
